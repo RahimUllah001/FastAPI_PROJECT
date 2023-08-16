@@ -1,0 +1,165 @@
+[
+    {
+        "label": "FastAPI",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "status",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Body",
+        "importPath": "fastapi.params",
+        "description": "fastapi.params",
+        "isExtraImport": true,
+        "detail": "fastapi.params",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "randrange",
+        "importPath": "random",
+        "description": "random",
+        "isExtraImport": true,
+        "detail": "random",
+        "documentation": {}
+    },
+    {
+        "label": "Post",
+        "kind": 6,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "class Post(BaseModel):\n    title: str\n    content: str\n    published: bool = True\n    rating: Optional[int] = None\nmy_posts = [{\"title\":\"tile of post no 1\", \"content\":\"content of the post no 1\", \"id\":1},\n              {\"title\": \"my favorite foods\" , \"content\":\"pizzza\", \"id\": 2}]    \ndef find_post(id):\n    for p in my_posts:\n        if p['id'] == id:",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "find_post",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def find_post(id):\n    for p in my_posts:\n        if p['id'] == id:\n            return p\ndef find_index_post(id):\n    for i, p in enumerate(my_posts):\n        if p['id'] == id:\n            return i\n@app.get(\"/\")\ndef root():",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "find_index_post",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def find_index_post(id):\n    for i, p in enumerate(my_posts):\n        if p['id'] == id:\n            return i\n@app.get(\"/\")\ndef root():\n    return {\"message\": \"Hello World\"}\n@app.get(\"/posts\")\ndef get_posts():\n    return {\"DATA\": my_posts}",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "root",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def root():\n    return {\"message\": \"Hello World\"}\n@app.get(\"/posts\")\ndef get_posts():\n    return {\"DATA\": my_posts}\n# create post with random ids\n@app.post(\"/posts\" ,status_code= status.HTTP_201_CREATED)\ndef create_posts(post : Post):\n    post_dict = post.dict()\n    post_dict['id'] = randrange(1,10000)",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "get_posts",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def get_posts():\n    return {\"DATA\": my_posts}\n# create post with random ids\n@app.post(\"/posts\" ,status_code= status.HTTP_201_CREATED)\ndef create_posts(post : Post):\n    post_dict = post.dict()\n    post_dict['id'] = randrange(1,10000)\n    my_posts.append(post_dict)\n    return { \"data \": post_dict}\n#gettting specific post by id",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "create_posts",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def create_posts(post : Post):\n    post_dict = post.dict()\n    post_dict['id'] = randrange(1,10000)\n    my_posts.append(post_dict)\n    return { \"data \": post_dict}\n#gettting specific post by id\n@app.get(\"/posts/{id}\")\ndef post_by_id(id: int, response: Response):\n    post = find_post(id)\n    if not post:",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "post_by_id",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def post_by_id(id: int, response: Response):\n    post = find_post(id)\n    if not post:\n        raise HTTPException(status_code= status.HTTP_404_NOT_FOUND, detail =  f\"post with id no {id } not found\")\n    return {\"new post\": post}\n#deleting a post\n# for this we will first find a index in the array of thr required id so that we can delete \n@app.delete(\"/posts/{id}\", status_code=status.HTTP_204_NO_CONTENT)\ndef delete_post(id: int):\n     index= find_index_post(id)",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "delete_post",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def delete_post(id: int):\n     index= find_index_post(id)\n     if index == None:\n         raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail=f\"post not found with id no {id}\")\n     my_posts.pop(index)\n     return {f\"the post with id no. {id} succesfully deleted\"}\n# updating the existing post for this we use put method\n@app.put(\"/posts/{id}\")\ndef update_post(id: int, post: Post):\n    index= find_index_post(id)",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "update_post",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def update_post(id: int, post: Post):\n    index= find_index_post(id)\n    if index == None:\n         raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail=f\"post not found with id no {id}\")\n    post_dict = post.dict()\n    post_dict['id'] = id\n    my_posts[index] = post_dict\n    return {\"datfffa\": post_dict}",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "app = FastAPI()\nclass Post(BaseModel):\n    title: str\n    content: str\n    published: bool = True\n    rating: Optional[int] = None\nmy_posts = [{\"title\":\"tile of post no 1\", \"content\":\"content of the post no 1\", \"id\":1},\n              {\"title\": \"my favorite foods\" , \"content\":\"pizzza\", \"id\": 2}]    \ndef find_post(id):\n    for p in my_posts:",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "my_posts",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "my_posts = [{\"title\":\"tile of post no 1\", \"content\":\"content of the post no 1\", \"id\":1},\n              {\"title\": \"my favorite foods\" , \"content\":\"pizzza\", \"id\": 2}]    \ndef find_post(id):\n    for p in my_posts:\n        if p['id'] == id:\n            return p\ndef find_index_post(id):\n    for i, p in enumerate(my_posts):\n        if p['id'] == id:\n            return i",
+        "detail": "main",
+        "documentation": {}
+    }
+]

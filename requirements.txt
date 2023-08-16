@@ -1,2 +1,7 @@
 fastapi[all]
 python 3
+pydantic
+#from fastapi import FastAPI 
+#from fastapi import Body
+#from pydantic import BaseModel
+#from typing import Optional
